@@ -1,0 +1,4 @@
+# Keep research context lightweight
+*.log
+__pycache__/
+.venv/
