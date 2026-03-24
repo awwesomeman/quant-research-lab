@@ -2,3 +2,8 @@
 *.log
 __pycache__/
 .venv/
+.pytest_cache/
+.openclaw/
+
+# Workspace sibling repo (managed independently)
+quant-strategy-lab/
