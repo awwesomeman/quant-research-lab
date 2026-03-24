@@ -1,0 +1,197 @@
+# 2026-03-03
+
+- 使用者再次強調互動風格：要自然、有溫度、避免 AI/SOP 官腔，定位為「好幫手」。
+- 使用者要求任務推進要主動到底：已啟動的任務（特別是監控模組化）不要再等待提醒。
+- 使用者要求待辦清單必須固定完整模板（完成/進行中/待執行），每項都要有簡單描述；時間欄位可簡化或留空。
+- 使用者確認工程規範為硬要求：檔名、變數名、函數名、函數設計風格需一致，遵循 DRY、可維護、配置化、統一介面。
+- 監控模組化進度：BTC 已完成兩階段遷移；TSI 已接入統一 runner/profile（目前 legacy adapter）；下一步是 TSI core 原生化與舊腳本封存。
+- 監控日誌標準化新增為正式任務：統一 JSONL schema 追蹤訊號（timestamp/strategy/stage/status/signal_key/setup_time/trigger_time/entry/stop/take_profit_1/take_profit_2/message）。
+- 使用者要求「把監控腳本模組化剩餘項目完成」，已執行收尾並完成交付。
+- 已完成 TSI 監控原生化：`monitor_run.py` 不再走 TSI legacy adapter，改為原生 `shioaji_trendpullback` 路徑。
+- 已完成監控日誌標準化落地：BTC/TSI 皆寫入 `data/monitor/signals.jsonl`，可追蹤 setup/trigger/skip/duplicate/signal_emitted 生命週期。
+- TODO 已更新：`監控腳本模組化` 與 `監控日誌標準化` 兩項移至完成區。
+- 本輪關鍵提交：`5337f50`（Finish monitor modularization: native TSI runner path and standardized signal lifecycle logs）。
+- 使用者要求確認「基礎模組是否完成 + 先做 unit test」；已完成語法檢查與基礎單元測試。
+- 驗證結果：`py_compile` 通過；`python -m unittest discover -s tests -v` 共 7 項測試全數通過（7/7 pass）。
+- 新增測試檔：`tests/test_research_modules.py`、`tests/test_monitor_core.py`。
+- 本輪測試提交：`467babf`（Add baseline unit tests for core backtest/monitor modules and record validation status）。
+- 使用者新增三項待辦：
+  1) 全面回顧舊回測/監控/報告後，討論並清理錯誤或淘汰檔案；
+  2) 依目前應用場景設計可重用 skills；
+  3) Brave Web Search 升級先記錄，今日稍晚提醒。
+- 使用者關注兩大主線任務進度：`全域模板治理`、`研究框架模組化`，並要求兩項完成後要自動接續其他待辦，不需再次提醒。
+- 使用者重視「是否真的有推進」與可驗證里程碑；不接受空泛百分比回報。
+- 目前共識狀態：兩項主線皆尚未 100% 完成，仍在最後整合收尾階段。
+- 使用者關注策略是否持續監控；檢查發現 BTC 持續、TSI 在 00:28 後未更新。
+- 已立即修正 TSI cron 相容性：將 `source ... &&` 改為 POSIX 相容 `. ... &&`，避免 cron shell 導致監控中斷。
+- 使用者明確要求不要等待指令，直接完成主線收尾；我已承諾立刻執行並在完成後回報「完成報告 + 最新待辦」。
+- 全域模板治理已完成並關單：`templates/robustness_report.md`、`templates/report_schema.json`、`scripts/save_reports.py` 已落地。
+- 研究框架模組化已完成並關單：正式腳本 `strategy_multifactorscore_v1_1_0_h1_l_mxfr1.py`、`strategy_trendpullback_v1_1_0_h1_l_btc.py`、`strategy_multifactorscore_v1_0_0_h1_ls_btcf.py` 已接入共用引擎（run_backtest/run_walkforward/run_stability）；向後相容 wrapper（multifactorscore_v1_1_0_h1_l_mxfr1、trendpullback_v1_1_0_h1_l_btc、strategy_multifactorscore_v1_0_0_h1_ls_btcf）已於 2026-03-03 刪除。
+- 使用者要求「全力執行並完成研究框架模組化」已交付；提交紀錄含 `70ed15b`（框架收尾）與 `9260d54`（模板治理收尾）。
+- 使用者追問策略命名回填與舊檔關係：目前尚未進入刪除階段，命名回填先針對 active/高機率復用檔案執行。
+- 已建立命名回填目標清單：`research/naming_backfill_targets.md`，並同步更新 TODO 任務描述。
+- 舊版資產清理審查已執行：archive 移至 `archive/20260303/`，低價值產物移至 `archive/20260303/trash/`（可恢復），提交 `9185611`。
+- 策略命名回填任務（KEEP 檔案）已完成，報告：`research/naming_backfill_report_2026-03-03.md`，提交 `74e8732`。
+- 應用場景 skills 設計已完成補強（trigger-map/cleanup-flow），提交 `ca6398c`。
+- ETL 與回測解耦重構已完成：新增 `core_data_sources.py`、`core_features.py`，並將三支主策略腳本接入共用層；測試 9/9 通過，提交 `9a923f3`。
+- 使用者新增基礎工程待辦：檢查 ETL（資料前處理/特徵工程）是否與回測模組解耦，並設計多資料源（Binance/Shioaji）一致化架構，以提高跨標的復用、因子計算一致性、降低重複程式碼。
+- 使用者強調希望加速完成基礎工程，後續有大量策略要實作。
+- 全域模板治理任務已完成：新增 `templates/robustness_report.md`、`templates/report_schema.json`、`scripts/save_reports.py`（latest/history 一鍵存檔）。
+- 使用者詢問改用 Claude CLI 提升 coding 效率，並同意採用。
+- 環境檢查結果：Claude CLI 已安裝且已登入（`claude` v2.1.63，loggedIn=true，org=Jason Pan Pro），可直接用於後續程式任務。
+- 模型切換偏好已確認：依任務難度在 Sonnet 4.6 與 Opus 4.6 間自動切換（一般開發用 Sonnet，高難度重構/決策用 Opus）。
+- 使用者新增執行偏好：後續寫程式任務以 Claude CLI 為主，再由我做最終 review 與測試把關。
+- 使用者再次強調 Claude CLI 要作為預設工具；我需在每次 coding 任務回報中明確標註是否使用 Claude CLI。
+- 使用者要求啟動 Response Streaming；已將 Telegram 設定 `channels.telegram.streaming` 切換為 `partial`。
+- 使用者要求我「明確更新記憶到目前為止任務內容」；已完成整體進度回填與關鍵提交紀錄同步。
+- 使用者要求對優化後腳本做 code review；本輪已用 Claude CLI（Sonnet 4.6）修正關鍵問題，並由我二次驗證。
+- 已修正項目：`memory-janitor.py` 語法、`core_data_sources.py` 未使用 import、`run_backtest.py` 結果 schema guard、`run_walkforward.py` invalid_result 保護、`monitor_core.py` log rotate（>10MB）。
+- 驗證結果：py_compile 通過，unit test 9/9 pass；提交 `0e54dc6`。
+- 已完成 scripts 分層重構（使用 Claude CLI Opus 4.6）：`backtest/`, `etl/`, `monitor/`, `reporting/`, `strategies/`, `ops/`，並更新 cron 到 `scripts/monitor/monitor_run.py`；驗證 23/23 tests pass；提交 `fe2bfbb`。
+- 已依使用者要求移除 wrapper 並全面改用 canonical `strategy_*.py`；提交 `0049624`。
+- 已新增監控通用 utils（state/dedupe/logging）並重構 monitor 模組，新增 14 項測試；總測試 23/23；提交 `5633eeb`。
+- 已完成 legacy 清理收尾：`scripts/legacy/` 內容搬至 `archive/20260303/legacy/`，legacy 目錄刪除；提交 `1c64b99`。
+- 使用者要求待辦清單預設提供精簡版，必要時再給詳細版。
+- LLM 選擇規則更新：策略研究以 Codex 為主，策略開發以 Claude CLI 為主；已同步寫入一致性 skill 與 USER 偏好。
+- 已再次完成基礎建設健康檢查：py_compile（backtest/etl/monitor/reporting/strategies/ops）通過。
+- Unit test 最新結果：23/23 pass（涵蓋 ETL、監控核心、回測共用引擎、state/dedupe/logging utils）。
+- 使用者要求最終確認核心功能皆有測試且測試有效，確認可進入策略研究階段。
+- 使用者要求做小樣本整合與回歸測試以檢查計算/績效/未來資料問題；已完成。
+- 本輪使用 Claude CLI（Sonnet 4.6）新增 `tests/test_integration_smallsample_backtest.py`，涵蓋小樣本整合回測 sanity 與 anti-lookahead 哨兵測試。
+- 測試結果更新：unittest 51/51 pass；提交 `9ab506e`。
+- 使用者要求先檢視「既有策略在新架構下的績效」。
+- 本輪開始重跑三支主策略腳本：TSI 多因子、BTCF 多因子、BTC TrendPullback（新分層路徑）。
+- 執行結果狀態：TSI 腳本已產出完整 JSON 結果；另有一個策略執行程序以 SIGTERM 結束，需重跑並補齊完整績效摘要後再回報。
+- 使用者詢問 timeout 訊息成因；已釐清與 cache 無關，主因是任務超時（長回測/同時多任務/輸出過大）。
+- 後續執行策略長任務採背景分批回報策略，避免再次觸發 request timeout。
+- 使用者確認長任務追蹤需求：需在背景執行時提供 job/session id，並可中途查進度。
+- 已提供可在 terminal 直接查看執行狀態的常用指令（openclaw status / crontab -l / tail 監控 log / gateway status）。
+- 使用者要求「既有策略重新產生績效」必須以新模組架構重跑，不可沿用舊輸出。
+- 已啟動三個背景回測 job（TSI/BTCF/BTC）並記錄 session id 與輸出路徑，待完成後回報精簡版模板績效。
+- 使用者指出策略清單漏列 `TrendPullback_v1.0.0-H1-L-MXFR1`；已更正策略盤點並確認需補入新分層正式主腳本。
+- 使用者補充並定案：四策略基線重置為 v1.0.0，且流程固定 Train+Validation 選穩定參數後再做 OOS；新結果直接覆蓋最新留存資料。
+- TSI 契約代碼確認採用 MXFR1。
+- 報告欄位強制補齊（PF / 平均報酬率每筆 / 權益倍數）已同步到模板與 workflow-consistency skill。
+- 新增待辦：搜尋開源參數最佳化模組（Optuna/Hyperopt/Nevergrad/Skopt）並評估整合。
+- 使用者確認資料範圍：workspace 為主要專案資料主體；另有部分系統層資訊在 `~/.openclaw`（設定/服務狀態等）不在 workspace 內。
+- 四策略基線重置任務已啟動背景執行（session: `briny-fjord`），採分批回報模式。
+- 背景任務 `briny-fjord` 已完成（Claude Opus 4.6），使用者要求確認是否持續執行中已回覆為 completed。
+- 新模組版四策略重跑進度：TSI 兩策略已完成並取得 Train/Val/OOS 指標；BTCF 兩策略受 Binance futures 429 限流影響暫未完成。
+- 已回報 TSI 重跑績效（含 PF、平均報酬每筆、權益倍數）；下一步待使用更保守抓取策略重跑 BTCF 以補齊四策略比較。
+- 使用者要求優先解決 Binance API 限流問題：以模組化方式重設 API 調用策略（backoff/jitter/pacing/chunking），避免頻繁呼叫被封鎖。
+- 已啟動背景任務 `marine-breeze`（Claude Opus 4.6）重構 `scripts/etl/core_data_sources.py` 並補測試後回報。
+- 使用者再次強調：程式碼任務預設使用 Claude CLI，並需遵循最佳實踐（DRY/分層/可測試）。
+- 使用者要求新增 skill 規範：新功能必須補 unit test；必要時補 integration test。已更新 `skills/workflow-consistency/SKILL.md`。
+- 使用者新增待辦：績效模板需補上各段樣本期間與交易成本設定；已完成模板與 skill 規範同步更新，並記錄至 TODO 完成區。
+- API 防限流 + ETL cache 兩項已完成，驗證結果提升至 unittest 80/80 pass。
+- ETL cache 已具備 key 標準化、TTL、原子寫入與 cache hit 跳過網路請求能力。
+- 使用者追問輸出 schema 管理方式；目前為半統一（共用回測主幹 + schema 檔）但 `sample_periods/cost_settings` 仍有逐檔補丁。
+- 下一步改進方向：建立 reporting/schema_builder 單一輸出組裝與驗證，避免逐檔修改。
+- 使用者同意啟動 schema 中央化重構；已用 Claude CLI Opus 4.6 啟動背景任務 `keen-prairie`（schema_builder + 四策略接入 + 測試）。
+- 使用者指出我有等待催進度的壞習慣；已將「背景任務完成/失敗主動回報」設為 workflow-consistency skill 的強制規則。
+- 已交付四策略最新重跑績效（TSI/BTCF × MFS/TrendPullback），內容含 sample_periods、cost_settings、Train/Validation/OOS 的 PF、avg return per trade、equity multiple 等核心指標。
+- OOS 快速結論：TrendPullback_v1.0.0-H1-L-MXFR1 表現最佳；BTCF 中 TrendPullback_v1.0.0-H1-L-BTCF 最佳。
+- 使用者要求統一成本單位表達；已將 cost_settings 統一為 unit + fee/slippage/tax/round_trip_cost，並固定 round_trip_formula = fee+slippage+tax。
+- TSI 成本改以 points 表示（2.0+0+0=2.0 點，註記 NT$100 等價 2 點）；BTCF 以 bps 表示（4+4+0=8 bps）。
+- 使用者指出命名與成本格式問題後，已修正：TSI 策略輸出名稱改為 MXFR1；cost_settings 改為 unit/fee/slippage/tax/round_trip_cost + round_trip_cost_text，移除 notes。
+- 新成本文字格式統一為：round_trip_cost=<value> <unit> (fee=<fee>, slippage=<slippage>, tax=<tax>)；相關測試通過（test_schema_builder 12/12）。
+- 使用者同意開發期可直接改檔名；已將 v1.0.0 基線策略檔名由 *_tsi.py 改為 *_mxfr1.py，並同步更新測試引用。
+- 重新驗證通過：unittest 92/92 pass；commit `872fc5f`。
+- 使用者要求檢視待辦清單；目前已給出「執行中 / 待執行 / 等待決策」分類，並提出兩項決策：是否立即同步清理 TODO、四策略下一步選資金配置或詳細版報告。
+- 依使用者指示已優先完成「四策略基線重置（v1.0.0）收尾」：TODO 狀態改為完成，策略名稱同步為 MXFR1/BTCF，並提交 commit `3373b0c`。
+- 依使用者決策完成兩項：TODO.md 同步清理（ETL cache/防限流/MXFR1 改名），並產出四策略 detailed full template 報告 `research/backtest_full_4strategies_2026-03-03.md`（commit `2a0365e`）。
+- 使用者明確要求：下一步不做資金配置，只做詳細版回測報告。
+- 已交付四策略 detailed full template 報告（`research/backtest_full_4strategies_2026-03-03.md`）與 OOS 重點摘要。
+- 發現 full report 的「成本設定」欄位尚未填入新規格式文字；待下一步重刷為 `round_trip_cost=<value> <unit> (fee=<fee>, slippage=<slippage>, tax=<tax>)`。
+- 依使用者要求已貼出四策略 Full Template 詳細報告全文，且成本格式統一為 `round_trip_cost=<value> <unit> (fee=<fee>, slippage=<slippage>, tax=<tax>)`。
+- 使用者提出 HTML 報告需求：將精簡版+完整版整合為同一份，採「一欄一策略」可擴充設計，並可快速比較績效差異與細節。
+- 已用 Claude CLI 啟動背景任務 `lucky-falcon` 開發 `render_report_html.py`、測試與產出四策略合併 HTML 報告。
+- 已新增待辦：低頻版 TrendPullback 研究（D1 決策 + H1 觸發，MXFR1），並建議版號 `TrendPullback_v2.0.0-D1-L-MXFR1`（決策框架改變屬 Major）。
+- 已新增待辦：穩健性測試報告 HTML 化，需整合 Walk-Forward/成本壓測/穩定區，並支援多策略欄位比較與手機版瀏覽。
+- 使用者確認版本治理偏好：正式策略/正式報告僅使用主版號 `v[L].[F].[P]`，保持命名乾淨；實驗批次後綴僅限內部實驗產物追蹤，跑完可清理，成果佳再升版回主檔。
+- 使用者提出低頻 TrendPullback 初步版號建議：`TrendPullback_v1.1.?-D1-L-MXFR1`（主邏輯不變、頻率調整、參數待優化後決定）。
+- 依使用者同意，已進一步精簡 `workflow-consistency` 相關內容：`SKILL.md` 改為 lean 規則；`references/trigger-map.md` 同步瘦身並對齊 v[L].[F].[P] 命名與四大觸發流程。
+- 三碼版號遷移任務已完成（session `kind-bloom`）：全倉庫由 2 段版號改為 3 段版號（含策略檔名/引用/監控 profile/TODO/research/memory）。
+- 驗證結果：py_compile 全過、unittest 111/111 pass；commit `050d52a`。
+- 已完成第一輪不必要檔案清理：刪除 `archive/20260303/trash/__pycache__/` 下 10 個 `.pyc` 檔並提交 commit `3e25a83`。
+- 第二輪清理候選已提出（log + cache），等待使用者確認是否執行。
+- 依使用者要求已新增 workflow 規範：每次優化/調整後需提供可刪除檔案候選清單（快取/日誌/過時輸出），先說明風險再刪除。
+- 使用者指出我漏記「績效 HTML 設計」待辦，已立即補入 TODO；並明確要求：未來提到「加到待辦清單」必須當下先新增再回報。
+- 使用者要求優先處理績效 HTML 設計；我已先提供 v0 模板草案（頁首總覽、上半部快速比較、下半部策略卡片、手機RWD與可擴充欄位式設計）等待確認。
+- 已建立 HTML 假資料模板：`research/template_backtest_dashboard_mock.html`，採一欄一策略、上半部 OOS 比較、下半部策略詳情卡片與手機 RWD。
+- 已透過 Telegram 傳送 HTML 假資料模板檔案 `template_backtest_dashboard_mock.html` 給使用者（messageId: 735）。
+- 使用者回饋目前 HTML 模板可讀性不佳；已啟動重設計（session `tender-ocean`），目標改為 signal-first 靜態儀表板（KPI strip + 熱度比較表 + 可折疊策略細節）。
+- 另記錄：web_search 目前受 `missing_brave_api_key` 限制，先以既有開源儀表板慣例進行設計。
+- 已將新版 HTML 模板與設計說明透過 Telegram 傳送給使用者（messageId: 742, 743）。
+- 已依使用者回饋再優化 HTML 模板視覺：採低飽和現代深色系、強化資訊層級與可讀性（KPI/比較表/細節），並更新 `research/template_backtest_dashboard_mock.html`。
+- 已將優化後新版 HTML 模板再次傳送給使用者（Telegram messageId: 748）。
+- 針對 HTML 儀表板改版方向已與使用者對齊：主比較區改用 Train/Validation/OOS 分段切換（優先 tabs 而非下拉），並改為單一主比較表 + 細節折疊，移除表一表二重複資訊。
+- 使用者確認：將穩健性區塊整合進 HTML 同頁，但預設保持空白 placeholder，以提升主比較檢視效率。
+- 已依最新需求生成 `template_backtest_dashboard_mock_v3.html`：主比較表採 Train/Validation/OOS tabs 樣式，且穩健性區塊整合但預設空白 placeholder。
+- 檔案已傳送給使用者（Telegram messageId: 757）。
+- 依使用者最新回饋已產出 `template_backtest_dashboard_mock_v4.html`：修正主表可點擊切換 Train/Validation/OOS、策略細節加入簡要策略邏輯、區塊名稱改為「穩健性測試」。
+- 新版檔案已透過 Telegram 傳送給使用者（messageId: 760）。
+- 依使用者最新 UI 規範已產出 `template_backtest_dashboard_mock_v5.html`：標題統一中文且去括號/英文、策略細節改表格便於擴展、主比較表切換互動可點擊。
+- v5 檔案已透過 Telegram 傳送給使用者（messageId: 763）。
+- 使用者要求在績效表加入指標懸浮說明：縮寫/短名稱可點擊後顯示完整名稱、簡要解釋與判讀方向，且需支援手機點擊互動。
+- 依使用者最新要求已更新 `template_backtest_dashboard_mock_v5.html`：先不加入懸浮功能；重點指標卡片新增英文策略名稱；策略細節表格文字改為全靠左。
+- 更新版檔案已傳送給使用者（Telegram messageId: 768）。
+- 已依使用者確認保留並鎖定 HTML 模板 v5：`research/template_backtest_dashboard_mock_v5.html`；中繼版本已清理。
+- 已提交 commit `e6695c8`，並確認後續正式轉換流程採單一資料來源 + 集中欄位映射 + 三段切換一致 + 缺值安全處理 + 測試先行。
+- 依使用者要求更新儀表板命名：標題改為「回測績效儀表板」；區塊名改為「重點分析」「績效分析」；檔名移除 v5，統一為 `research/template_backtest_dashboard_mock.html`。
+- 已向使用者彙整 3/2–3/3 完成項目清單（監控模組化、ETL解耦、schema集中管理、四策略重跑、防限流+cache、三碼版號遷移、MXFR1命名對齊、full報告與HTML模板等）。
+- 已完成待辦「穩健性測試報告 HTML 化」：新增 `research/template_robustness_dashboard_mock.html` 並回填 TODO 完成區；commit `fdd4a7d`。
+- 已提供「回測績效留空白區塊」顯示範例：穩健性測試/成本壓測/WF 皆以狀態欄位 + 缺值 `-` 佔位，讓使用者可快速判斷未接線 vs 異常。
+- 已將「留空白區塊」整合進回測績效儀表板，目前穩健性測試區塊以 placeholder 顯示，後續可直接接入 WF/成本壓測/穩定區資料。
+- 已依使用者要求在回測績效儀表板加入穩健性假資料表，並重新傳送 `template_backtest_dashboard_mock.html`（Telegram messageId: 785）。
+- 使用者要求將「走勢前推」名稱改為英文（Walk-Forward）。
+- 我建議穩健性資料採兩層：預設精簡 + 可展開詳細（每窗結果、成本情境、穩定區敏感度）。
+- 使用者補充要求：儀表板中的成本設定內容需改為中文呈現。
+- 使用者指出我在 pre-compaction memory flush 曾漏記；已承認並承諾改為硬規則：看到 flush 指令先 append memory 再回 NO_REPLY。
+- 已交付整合後新版回測儀表板：Walk-Forward 英文化、成本設定中文化、穩健性區塊改為預設精簡 + 可展開詳細；檔案已傳送（Telegram messageId: 796）。
+- 使用者新增要求：任務完成後需立即給結果回報（做了什麼、檔案位置、是否送出），避免等待催促。
+- 使用者提出新決策：回測儀表板先移除「穩健性測試」區塊，未來再獨立設計該部分內容。
+- 已依使用者要求先加入待辦：回測儀表板移除穩健性測試區塊，改於第二階段獨立設計。
+- 已完成並收尾「績效報告 HTML 設計定稿與整併」：主儀表板定稿（重點分析/樣本切換績效分析/策略細節表格/成本中文化），並依決策移除主頁穩健性測試區塊。
+- TODO 已同步回填完成，定稿檔案已傳送給使用者（Telegram messageId: 807）。
+- 已向使用者確認：回測績效報告任務已完成（HTML 儀表板定稿交付、TODO 完成回填）；穩健性主頁展示依決策移除，改第二階段獨立設計。
+- 已啟動低頻版 TrendPullback 研究任務（D1 決策 + H1 觸發，MXFR1），session `quiet-cloud`；承諾完成後主動回報變更檔案、測試結果與 Train/Validation/OOS 核心績效。
+- 已依使用者要求將回測儀表板成本欄位文字由「單筆總成本」改為「雙邊成本」。
+- 已依使用者要求更新一致性規範：策略研究預設統一 Train/Validation/OOS 期間，僅在資料源限制或特殊情況微調，且需註記原因與調整後期間。
+- 已同步到 `skills/workflow-consistency/SKILL.md` 與 `skills/workflow-consistency/references/trigger-map.md`。
+- 已回報目前策略研究期間切割：MXFR1 兩支一致（2024-01-01~2026-03-03 分段），BTCF 兩支目前未完全同切（MFS 與 TP 差一個月）。
+- 已提示此差異為後續一致性規範收斂重點。
+- 低頻版 TrendPullback 任務（session `quiet-cloud`）仍在執行中，已回覆使用者會於完成後立即回報結果。
+- 低頻版 TrendPullback 任務已完成（session quiet-cloud）：新增 `strategy_trendpullback_v1_1_0_d1_l_mxfr1.py`，並產出 `data/reports_reset_trendpullback_mxfr1_v1_1_0_d1.json`。
+- 測試結果 118 pass（2 skipped）；目前摘要為 deterministic synthetic 測試資料，後續可再跑真實 MXFR1 取得正式比較指標。
+- 已向使用者澄清 deterministic synthetic：屬固定種子可重現的模擬資料，用於離線回歸測試，不作最終策略評估；正式評估需用真實資料。
+- 已啟動真實 MXFR1 版本重跑，待完成後回報正式 Train/Validation/OOS 指標。
+- 使用者詢問輸出路徑命名；已說明 `reports_reset_*` 來自基線重置批次命名習慣，但 D1 新研究建議改為獨立 latest/history 命名（避免與 reset 混淆）。
+- 使用者同意將 D1 新研究輸出改為獨立命名 latest/history，不再沿用 reports_reset 路徑；待真實資料任務完成後一次回報最終結果。
+- 已依使用者要求改用正式命名路徑啟動真實資料重跑：`data/reports_trendpullback_mxfr1_v1_1_0_d1_latest.json`（session `plaid-rook`）。
+- 承諾完成後立即回報 Train/Validation/OOS 指標與 history 檔案落檔路徑。
+- 使用者指出我在 `plaid-rook` 任務完成後未即時主動回報；已承認並再次強化硬規則：背景任務完成即刻回報狀態、產物路徑、核心結果與下一步。
+- 已依使用者要求傳送最新回測績效儀表板檔案 `research/template_backtest_dashboard_mock.html`（Telegram messageId: 832）。
+- 使用者指出儀表板範圍應僅 MXFR1；已重製並交付 `research/backtest_dashboard_mxfr1_only.html`（三策略：TP H1 舊績效、MFS H1 舊績效、TP D1 最新參數績效），Telegram messageId: 835。
+- 使用者指出 MXFR1-only 儀表板有跑版問題；已重做並對齊既定模板風格，僅保留三個 MXFR1 策略，重新傳送 `backtest_dashboard_mxfr1_only.html`（Telegram messageId: 838）。
+- 已確認 workflow-consistency 已包含回測結果模板輸出規範；並修正命名規則段落為 `v[L].[F].[P]`，移除舊版 major/minor 描述殘留。
+- 依使用者要求調整 workflow-consistency：刪除舊的「預設 brief」與 checklist 中 `Correct template selected`，改為「回測分析以模板輸出為主（brief/full 依需求選擇）」。
+- 使用者決策更新：回測報告統一單一模板，取消 brief/full 分流；已同步更新 workflow-consistency 與 trigger-map。
+- 已回覆策略疑問：D1 策略交易次數偏高主因為「D1 判斷 + H1 可重複觸發」導致同日可能多次進場；若要低頻需加限制（每決策日最多一筆或冷卻期）。
+- 已澄清交易次數定義：目前 `trades` 為完整 round-trip（進出場合計算 1 筆），非買賣各算一次。
+- 已確認可存取公開 repo `shiyu-coder/Kronos` 頁面內容，並回覆可進一步提供重點摘要與接入 MXFR1 研究流程的評估。
+- 已建立程式碼研究專用資料夾：`research/code_research/kronos`，供使用者安裝/放置 Kronos 專案後進行研究。
+- 使用者指出 MXFR1-only 儀表板仍有跑版疑慮；我已再次確認並承諾固定沿用既定模板風格，不再偏離。
+- 使用者指出我回覆錯位（鬼打牆）；我已承認並重申要拉回最新上下文，下一步聚焦 Kronos 研究並提出可落地策略草案。
+- 使用者詢問是否可操作 QuantConnect Terminal；我已確認可操作並先提示若遇登入/2FA/驗證碼需使用者接手。
+- 已開始嘗試操作 QuantConnect Terminal，但目前 Chrome Relay 尚未 attach；已請使用者在目標分頁開啟 OpenClaw 擴充並切換 ON 後再接手。
+- 使用者遇到 `No space left on device` 導致 repo clone 失敗；已診斷根磁碟僅剩 29MB。
+- 已盤點主要空間佔用在 `research/code_research`（TradeMaster/FinRL-Meta/FinRL），並提供清理與 `git clone --depth 1` 建議。
+- 已確認 NautilusTrader repo 已安裝可用，位置 `/home/jasonpan_subscribe/nautilus_trader`，結構完整且可作為後續回測/績效/監控重構基礎。
+- 使用者表示稍後提供指令；我已回覆待命並準備收到指令即執行。
+- 已將使用者提供的 NautilusTrader 多市場開發守則整理為 `research/nautilustrader_multi_market_dev_guide_2026.md`，格式調整為可長期參考的結構化章節。
+- 已將「Shioaji to NautilusTrader 實時數據橋接」內容整理為 `research/shioaji_to_nautilustrader_bridge_implementation_guide.md`，包含結構化章節、標準化程式碼區塊與後續實作備註。
+- 已完成環境初始化：建立 `nautilus_lab/pyproject.toml` 並於 `nautilus_lab/.venv` 安裝 nautilus_trader、shioaji、ccxt、empyrical、influxdb-client。
+- 變更已提交 commit `c2aefea`。
+- 使用者再次強調：後續寫程式需先用 Claude CLI；已確認並承諾執行。
+- 已依使用者需求啟動 InfluxDBActor 開發任務（session `quick-comet`）：監聽 TradeTick/PositionChanged、InfluxDB async 寫入、Telegram 通知整合，並含離線測試與 README 說明。
