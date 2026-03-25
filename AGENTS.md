@@ -122,6 +122,7 @@ NEXT:    [建議下一步]
 ### 錯誤學習
 - 重要錯誤與修正記錄到 `.learnings/ERRORS.md`
 - 同類錯誤出現 3+ 次 → 提升到 MEMORY.md（P0）或更新 AGENTS.md 規則
+- 里程碑驗收前 / 升級 Opus 前，主動讀取 `.learnings/ERRORS.md` 避免重蹈覆轍
 
 ---
 
