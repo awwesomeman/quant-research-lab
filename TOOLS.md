@@ -1,40 +1,17 @@
 # TOOLS.md - Local Notes
 
-Skills define _how_ tools work. This file is for _your_ specifics — the stuff that's unique to your setup.
+## SSH
 
-## What Goes Here
+- `github.com` → key: `~/.ssh/id_ed25519_quant_research`（quant-research-lab）
+- `github-quant-strategy` → key: `~/.ssh/id_ed25519_openclaw_quant`（quant-strategy-lab）
 
-Things like:
+## Services（本機）
 
-- Camera names and locations
-- SSH hosts and aliases
-- Preferred voices for TTS
-- Speaker/room names
-- Device nicknames
-- Anything environment-specific
+- InfluxDB: `http://localhost:8086`（token: see `nautilus_lab/deploy/.env.example`）
+- Grafana: `http://localhost:3000`（admin/admin）
+- Streamlit: port 8502（需手動啟動 `.venv/bin/python -m streamlit run ...`）
 
-## Examples
+## 外網連結（需防火牆放行 tcp:3000,8502）
 
-```markdown
-### Cameras
-
-- living-room → Main area, 180° wide angle
-- front-door → Entrance, motion-triggered
-
-### SSH
-
-- home-server → 192.168.1.100, user: admin
-
-### TTS
-
-- Preferred voice: "Nova" (warm, slightly British)
-- Default speaker: Kitchen HomePod
-```
-
-## Why Separate?
-
-Skills are shared. Your setup is yours. Keeping them apart means you can update skills without losing your notes, and share skills without leaking your infrastructure.
-
----
-
-Add whatever helps you do your job. This is your cheat sheet.
+- Grafana: `http://35.194.150.232:3000/d/signal_monitoring_v0/quant-strategy-monitor`
+- Streamlit: `http://35.194.150.232:8502`

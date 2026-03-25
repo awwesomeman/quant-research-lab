@@ -1,113 +1,50 @@
-
 # MEMORY.md — Long-term Memory
 
 長期記憶索引（主檔）。細節分流到 domain 檔案。
 
-## Domain Index [P0]
+## Domain Index
+
 - Quant Research: `memory/domains/quant.md`
 - Finance Knowledge: `memory/domains/finance.md`
 - Productivity: `memory/domains/productivity.md`
 - Tech Trends: `memory/domains/tech-trends.md`
 - Price Comparison: `memory/domains/price-comparison.md`
 
-## Auto Classification Rule [P0]
-- 我會依對話情境自動寫入最相關 domain。
-- 若內容跨主題，會主檔留摘要並分別寫入多個 domain。
-- 新情境出現時可動態新增 `memory/domains/<new-topic>.md`。
+## Auto Classification Rule
+
+- 依對話情境自動寫入最相關 domain
+- 跨主題：主檔留摘要，分別寫入多個 domain
+- 新情境出現時可動態新增 `memory/domains/<new-topic>.md`
 
 ---
 
-## Events Timeline [P0]
-<!-- L0: 重要事件時間軸 -->
+## Events Timeline
 
-- **YYYY-MM-DD** [事件描述] — [詳細說明]
-
----
-
-## User Profile [P0]
-<!-- L0: 使用者基本資料 -->
-
-- **Name:** （你的名字）
-- **Language:** 繁體中文 / English
-- **Location:** 城市/地區
-- **Timezone:** Asia/Taipei (UTC+8)
-- **Communication:** Telegram / LINE / Discord
+- **2026-03-24** quant-strategy-lab 架構決策：Lumibot-first，legacy 回測已移除
+- **2026-03-24** 建立 Grafana 監控儀表板 + Streamlit 回測儀表板
+- **2026-03-25** Agent 編排定案：Backend/Master=Opus, Frontend/QA=Sonnet, Gemini=search only
+- **2026-03-25** 兩 repo 推送 GitHub 成功（SSH config 修復）
 
 ---
 
-## User Preferences [P0]
+## Infrastructure
 
-- **回覆風格:** 簡潔 / 詳細
-- **溝通語言:** 繁體中文
-- **重要原則:**
-  - （填入你的原則）
-
----
-
-## User Entities [P0]
-
-- **寵物:** （無 / 貓 / 狗）
-- **設備:** （裝置型號）
-- **興趣:** （興趣愛好）
+- **VPS**: GCP `instance-20260302-070225` (asia-east1-b)
+- **External IP**: 35.194.150.232
+- **Services**: InfluxDB(:8086), Grafana(:3000), Streamlit(:8502)
+- **SSH**: 兩把 deploy key（research / strategy 各一）via `~/.ssh/config`
 
 ---
 
-## Infrastructure [P0]
+## Tech Projects
 
-### 主機
-- **VPS:** Oracle Cloud / AWS / GCP / 自建
-- **Host:** your-server.example.com
-- **SSH:** Port 22, user your-user
+### quant-strategy-lab
+- **目錄**: `~/workspace/quant-strategy-lab`
+- **Remote**: `git@github-quant-strategy:awwesomeman/quant-strategy-lab.git`
+- **技術**: Lumibot + InfluxDB + Grafana + Streamlit
+- **狀態**: Phase 0 進行中
 
-### 服務
-- （你的服務列表）
-
----
-
-## Second Brain [P0]
-
-- **Sync:** memory/*.md → cron → notes/ ↔ Obsidian
-
----
-
-## Tech Projects [P1] [YYYY-MM-DD]
-
-### Project Name
-- **目錄:** /path/to/project
-- **技術:** Python / Node.js
-- **狀態:** 進行中
-
----
-
-## External Integrations [P1] [YYYY-MM-DD]
-
-### Service Name
-- **API:** https://api.service.example.com
-- **Auth:** API Key / OAuth2
-
----
-
-## Dev Workflows [P1] [YYYY-MM-DD]
-
-### Workflow Name
-- **用途:** 描述
-- **觸發:** cron / manual / event
-
----
-
-## Experiments [P2] [YYYY-MM-DD]
-
-### Experiment Name
-- **目標:** 實驗目標
-- **結果:** 待觀察
-
----
-
-## Agent Cases & Patterns [P0]
-
-### Pattern Name
-- **觸發條件:** （什麼情況使用）
-- **解決方案:** （具體做法）
-- **範例:** （使用範例）
-
-
+### quant-research-lab
+- **目錄**: `~/workspace`（workspace root）
+- **Remote**: `git@github.com:awwesomeman/quant-research-lab.git`
+- **狀態**: 基礎設定整理中
