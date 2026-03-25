@@ -99,6 +99,23 @@ NEXT:    [建議下一步]
 
 ---
 
+## 記憶管理
+
+### Memory 分級
+- **P0**（永久）：使用者偏好、基礎設施、核心模式、重大決策
+- **P1**（定期review）：技術方案、專案狀態、帶日期的解法
+- **P2**（30天過期）：實驗紀錄、臨時筆記、待驗證假設
+
+### 自動 Memory Flush
+- 每個里程碑（M1/M2/M3）完成時，Master 更新 `MEMORY.md`（事件+決策+風險）與 `memory/YYYY-MM-DD.md`（當日細節）
+- Heartbeat 時若距上次 memory 寫入 >24h，主動檢查是否有未記錄事項
+
+### 錯誤學習
+- 重要錯誤與修正記錄到 `.learnings/ERRORS.md`
+- 同類錯誤出現 3+ 次 → 提升到 MEMORY.md（P0）或更新 AGENTS.md 規則
+
+---
+
 ## 💓 Heartbeats
 
 遵循 `HEARTBEAT.md`。無任務時回 `HEARTBEAT_OK`。

@@ -18,16 +18,18 @@
 
 ---
 
-## Events Timeline
+## Events Timeline [P0]
 
 - **2026-03-24** quant-strategy-lab 架構決策：Lumibot-first，legacy 回測已移除
 - **2026-03-24** 建立 Grafana 監控儀表板 + Streamlit 回測儀表板
 - **2026-03-25** Agent 編排定案：Backend/Master=Opus, Frontend/QA=Sonnet, Gemini=search only
 - **2026-03-25** 兩 repo 推送 GitHub 成功（SSH config 修復）
+- **2026-03-25** 基礎設定大整合：刪除重複檔案、單一 AGENTS.md、workspace 精簡化
+- **2026-03-25** 導入 memory P0/P1/P2 分級 + 錯誤學習機制
 
 ---
 
-## Infrastructure
+## Infrastructure [P0]
 
 - **VPS**: GCP `instance-20260302-070225` (asia-east1-b)
 - **External IP**: 35.194.150.232
@@ -36,7 +38,7 @@
 
 ---
 
-## Tech Projects
+## Tech Projects [P1]
 
 ### quant-strategy-lab
 - **目錄**: `~/workspace/quant-strategy-lab`
