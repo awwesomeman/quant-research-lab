@@ -152,6 +152,14 @@ NEXT:    [建議下一步]
 
 ---
 
+## Git Push 規則
+
+- 不主動 push，只做 commit
+- 使用者明確要求時才 push
+- 累積 ≥5 個 commit 時主動詢問是否 push
+
+---
+
 ## 變更規範
 
 修改本檔 = 調整全域 Agent 行為。commit message 加 `agents-policy`。
