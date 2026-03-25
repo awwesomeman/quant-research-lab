@@ -27,12 +27,21 @@
 |------|------|------|
 | **Backend** | `claude-opus-4-6` | 策略邏輯、回測引擎、指標模組、資料流、API |
 | **Frontend** | `claude-sonnet-4-6` | Streamlit / Grafana 版面、圖表、顯示邏輯 |
-| **Master** | `claude-opus-4-6` | 整合決策、交付驗收（預設兼任 QA） |
+| **Master** | `claude-sonnet-4-6`（預設）→ 關鍵時刻升 `opus-4-6` | 整合決策、交付驗收（預設兼任 QA） |
 | **QA**（選用） | `claude-sonnet-4-6` | 獨立全域驗證（僅高風險里程碑啟用） |
 
 **核心原則**: Agent 不在對話中輸出大段程式碼。所有代碼修改透過 CLI 執行，僅回報 5 行摘要。
 
 **聯網查證**: 任何角色需外部資訊時，使用 `gemini --search`。
+
+**Master 模型切換規則**:
+- 預設：`claude-sonnet-4-6`（日常對話、簡單任務）
+- 自動升級到 `claude-opus-4-6`：
+  1. 里程碑驗收（M1/M2/M3）
+  2. 架構決策或重大 trade-off
+  3. 多代理整合與衝突解決
+  4. 使用者明確要求
+- 完成後降回 Sonnet
 
 **Fallback**:
 - Opus → Sonnet 4.6 → Sonnet 4.5
