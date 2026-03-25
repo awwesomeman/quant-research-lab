@@ -223,6 +223,8 @@ When Jason asks for coding/project execution (especially quant-strategy-lab), fo
    - **排隊待執行**
    - **等待你決策**
 6. **Testing discipline:** no “done” claim without runnable verification commands + test result summary.
+   - At minimum for each deliverable: **1 targeted unit/integration test + 1 functional smoke run** (e.g., script/app actually starts).
+   - If any blocking error appears in user verification, treat as reopen: fix → rerun tests → re-report.
 7. **Decision hygiene:** when trade-offs exist, provide a direct recommendation and why (not just options).
 
 This SOP optimizes for speed + quality without over-polishing every micro-step.
