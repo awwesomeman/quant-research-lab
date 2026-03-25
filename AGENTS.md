@@ -152,6 +152,12 @@ NEXT:    [建議下一步]
 
 ---
 
+## TODO 管理
+
+- 任務狀態變更時更新 `TODO.md`（In Progress / Queued / Done）
+
+---
+
 ## Git Push 規則
 
 - 不主動 push，只做 commit
