@@ -59,7 +59,7 @@
 
 - 預設安裝 `https://github.com/awwesomeman/python-skills#` 整包
 - 至少確認 `git`, `python`, `quant` 可用
-- 回報第一行必須標註 `Skills used: ...`
+- 回報第一行必須標註 `Skills used: ... / simplify used: yes|no`
 - Backend 預設：`python, quant`；Frontend 預設：`python`（涉及策略語意加 `quant`）
 
 ---
