@@ -3,7 +3,9 @@
 ## In Progress
 
 - [ ] 真實 Binance 資料 → InfluxDB → Grafana/Streamlit e2e 打通（2026-03-25）
-- [ ] Lumibot 正式整合為回測主入口（2026-03-25）
+- [ ] Lumibot 正式整合為回測主入口 — 改用 H1 資料餵入（2026-03-25）
+- [ ] Grafana MVP 儀表板重新設計（精簡指標、去重複、4 行層次結構）（2026-03-25）
+- [ ] 清除 InfluxDB 舊假資料（2026-03-25）
 
 ## Queued
 
