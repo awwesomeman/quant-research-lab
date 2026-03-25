@@ -138,6 +138,13 @@ NEXT:    [建議下一步]
 
 ---
 
+## 研究資源索引
+
+- `research/`：框架選型報告、PoC 評估、儀表板說明等研究性文件（按需讀取，不自動注入）
+- `decisions/`：重大決策記錄
+
+---
+
 ## Platform Formatting
 
 - **Telegram**: Markdown OK
