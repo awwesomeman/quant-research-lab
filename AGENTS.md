@@ -80,9 +80,9 @@ NEXT:    [建議下一步]
 
 ## Scope Isolation
 
-- **Backend**: `nautilus_lab/nautilus_lab/strategies`, `backtest`, `monitoring`, `scripts`
-- **Frontend**: `nautilus_lab/app`, `nautilus_lab/grafana`, `docs`（UI 相關）
-- **Master/QA**: 全域可讀（僅里程碑觸發全域掃描）
+- **Backend**：禁止讀寫 UI / 儀表板相關檔案
+- **Frontend**：禁止讀寫策略邏輯 / 回測引擎，只依賴已定義的 schema 與資料接口
+- **Master/QA**：全域可讀（僅里程碑觸發全域掃描）
 - 跨域改動需 Master 授權
 
 ---
