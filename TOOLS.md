@@ -20,7 +20,7 @@
 
 ## Services（本機）
 
-- InfluxDB: `http://localhost:8086`（token: see `nautilus_lab/deploy/.env.example`）
+- InfluxDB: `http://localhost:8086`（token: see `quant_lab/deploy/.env.example`）
 - Grafana: `http://localhost:3000`（admin/admin）
 - Streamlit: port 8502（需手動啟動 `.venv/bin/python -m streamlit run ...`）
 

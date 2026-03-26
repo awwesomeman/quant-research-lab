@@ -57,15 +57,22 @@
 
 ---
 
-## 回報格式（5 行，強制）
+## 回報格式（7 行，強制）
 
 ```
+META:    skills: [used] | simplify: yes/no | tools: [gemini --search / none / ...]
+STATUS:  ✅ completed / ⚠️ partial / ❌ failed
 CHANGED: [檔案，最多 8 個，其餘 +N files]
 CMDS:    [關鍵命令/測試]
 TEST:    [pass x/y；失敗列前 3 個]
 RISKS:   [風險/漏洞]
 NEXT:    [建議下一步]
 ```
+
+**觸發條件**：有新增/修改/刪除程式碼（.py/.json/.yaml 等）或執行測試時才主動回報。
+純文件整理、目錄調整、rename 不需要觸發。
+
+**完整回報存檔**：每次回報同步寫入 `logs/agent_runs.jsonl`（one JSON per line），Master 轉述精簡版給使用者。
 
 - 每行 ≤120 字；禁止貼長 log（改存檔案路徑）；禁止重述任務背景
 
