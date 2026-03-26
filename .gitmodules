@@ -1,0 +1,3 @@
+[submodule "skills/python-skills"]
+	path = skills/python-skills
+	url = https://github.com/awwesomeman/python-skills.git
