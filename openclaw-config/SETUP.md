@@ -38,7 +38,17 @@ cp ~/.openclaw/workspace/openclaw-config/openclaw.template.json ~/.openclaw/open
 # 4) Symlink cron
 ln -sf ~/.openclaw/workspace/openclaw-config/cron/jobs.json ~/.openclaw/cron/jobs.json
 
-# 5) 安裝 skills（見 workspace AGENTS.md「Skill 安裝方式」段落）
+# 5) 安裝 skills
+# 5a) 外部 skills
+git clone https://github.com/awwesomeman/python-skills.git ~/.openclaw/repos/python-skills
+for s in git python quant skill-creator; do
+  ln -sf ~/.openclaw/repos/python-skills/skills/$s ~/.openclaw/skills/$s
+done
+
+# 5b) workspace 自訂 skills → symlink 到根目錄
+for s in ~/.openclaw/workspace/skills/*/; do
+  [ -f "$s/SKILL.md" ] && ln -sf "$s" ~/.openclaw/skills/$(basename "$s")
+done
 
 # 6) 子代理認證
 mkdir -p ~/.openclaw/agents/backend/agent ~/.openclaw/agents/frontend/agent

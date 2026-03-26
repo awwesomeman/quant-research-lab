@@ -53,20 +53,7 @@
 - Backend 預設：`python, quant`；Frontend 預設：`python`（涉及策略語意加 `quant`）
 - ⚠️ `~/.claude/skills/` 為 legacy，不再維護同步
 
-### Skill 安裝方式
-
-```bash
-# 1) 外部 skills（python-skills repo → ~/.openclaw/repos/）
-git clone https://github.com/awwesomeman/python-skills.git ~/.openclaw/repos/python-skills
-for s in git python quant skill-creator; do
-  ln -sf ~/.openclaw/repos/python-skills/skills/$s ~/.openclaw/skills/$s
-done
-
-# 2) workspace 自訂 skills → symlink 到根目錄
-for s in ~/.openclaw/workspace/skills/*/; do
-  [ -f "$s/SKILL.md" ] && ln -sf "$s" ~/.openclaw/skills/$(basename "$s")
-done
-```
+安裝方式見 `openclaw-config/SETUP.md`。
 
 ---
 
