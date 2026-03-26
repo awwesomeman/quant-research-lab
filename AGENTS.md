@@ -72,7 +72,7 @@ NEXT:    [建議下一步]
 **觸發條件**：有新增/修改/刪除程式碼（.py/.json/.yaml 等）或執行測試時才主動回報。
 純文件整理、目錄調整、rename 不需要觸發。
 
-**完整回報存檔**：每次回報同步寫入 `logs/agent_runs.jsonl`（one JSON per line），Master 轉述精簡版給使用者。
+**完整回報存檔**：每次回報同步寫入 `workspace/logs/agent_runs.jsonl`（one JSON per line），Master 轉述精簡版給使用者。
 
 - 每行 ≤120 字；禁止貼長 log（改存檔案路徑）；禁止重述任務背景
 
