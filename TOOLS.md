@@ -1,5 +1,16 @@
 # TOOLS.md - Local Notes
 
+## Repo 目錄結構
+
+```
+~/.openclaw/
+├── workspace/               ← quant-research-lab（OpenClaw workspace）
+│   └── quant-strategy-lab/  ← 主策略 repo
+├── repos/                   ← 外部 repo 統一 clone 位置
+│   └── python-skills/       ← skills 來源 repo
+└── skills/                  ← symlink → repos/python-skills/skills/*
+```
+
 ## SSH
 
 - `github.com` → key: `~/.ssh/id_ed25519_quant_research`（quant-research-lab）
