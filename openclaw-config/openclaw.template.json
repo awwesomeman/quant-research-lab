@@ -50,7 +50,7 @@
         "id": "main",
         "model": "anthropic/claude-sonnet-4-6",
         "identity": {
-          "name": "PM 墨熵",
+          "name": "墨熵",
           "theme": "Architecture planning, task delegation, and subagent report review",
           "emoji": "🐙"
         },
