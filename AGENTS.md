@@ -47,11 +47,18 @@
 ## Skills（強制）
 
 - 安裝路徑：`~/.openclaw/skills/`（唯一 skill 路徑，main + subagent 共用）
-- 來源：`https://github.com/awwesomeman/python-skills#`（整包安裝）
+- 來源：`git@github.com:awwesomeman/python-skills.git`
 - 至少確認 `git`, `python`, `quant` 可用
 - 回報第一行必須標註 `Skills used: ... / simplify used: yes|no`
 - Backend 預設：`python, quant`；Frontend 預設：`python`（涉及策略語意加 `quant`）
-- ⚠️ `~/.claude/skills/` 為 legacy，不再維護同步
+
+**安裝指令（新環境 / 重裝）：**
+```bash
+curl -fsSL https://raw.githubusercontent.com/awwesomeman/python-skills/main/remote-install.sh | bash -s -- claude openclaw gemini
+```
+- 預設安裝所有 skill
+- 同時安裝到 claude / openclaw / gemini 全域路徑
+- 不需要手動 clone repo，不需要 symlink
 
 安裝方式見 `openclaw-config/SETUP.md`。
 
@@ -60,7 +67,7 @@
 ## 回報格式（7 行，強制）
 
 ```
-META:    skills: [used] | simplify: yes/no | tools: [gemini --search / none / ...]
+META:    agent: [backend/frontend/qa/master] | skills: [used] | simplify: yes/no | tools: [gemini --search / none / ...]
 STATUS:  ✅ completed / ⚠️ partial / ❌ failed
 CHANGED: [檔案，最多 8 個，其餘 +N files]
 CMDS:    [關鍵命令/測試]
@@ -76,7 +83,7 @@ NEXT:    [建議下一步]
 
 **Master 轉述精簡版（4 行）**：
 ```
-META:    skills: ... | simplify: yes/no | tools: ...
+META:    agent: [backend/frontend/qa/master] | skills: ... | simplify: yes/no | tools: ...
 STATUS:  ✅ completed / ⚠️ partial / ❌ failed
 TEST:    pass x/y
 NEXT:    [下一步]

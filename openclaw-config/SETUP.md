@@ -39,11 +39,8 @@ cp ~/.openclaw/workspace/openclaw-config/openclaw.template.json ~/.openclaw/open
 ln -sf ~/.openclaw/workspace/openclaw-config/cron/jobs.json ~/.openclaw/cron/jobs.json
 
 # 5) 安裝 skills
-# 5a) 外部 skills
-git clone https://github.com/awwesomeman/python-skills.git ~/.openclaw/repos/python-skills
-for s in git python quant skill-creator; do
-  ln -sf ~/.openclaw/repos/python-skills/skills/$s ~/.openclaw/skills/$s
-done
+# 5a) 外部 skills（一行搞定，安裝到 claude / openclaw / gemini 全域路徑）
+curl -fsSL https://raw.githubusercontent.com/awwesomeman/python-skills/main/remote-install.sh | bash -s -- claude openclaw gemini
 
 # 5b) workspace 自訂 skills → symlink 到根目錄
 for s in ~/.openclaw/workspace/skills/*/; do
@@ -64,4 +61,4 @@ openclaw gateway start
 
 - **絕對不要** commit `openclaw.json` 或 `auth-profiles.json`
 - `.gitignore` 已排除上述檔案
-- `~/.claude/skills/` 為 legacy，不需要維護
+- `~/.openclaw/repos/python-skills/` 舊 clone 方式已廢棄，不需要 repo，直接用 remote-install.sh

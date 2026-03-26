@@ -6,12 +6,11 @@
 ~/.openclaw/
 ├── workspace/               ← quant-research-lab（OpenClaw workspace）
 │   └── quant-strategy-lab/  ← 主策略 repo
-├── repos/                   ← 外部 repo 統一 clone 位置
-│   └── python-skills/       ← skills 來源 repo
-└── skills/                  ← symlink → repos/python-skills/skills/*
+└── skills/                  ← 由 remote-install.sh 直接安裝
 ```
 
 - `workspace/openclaw-config/`：部署工具包（不自動讀取，僅新環境設定時使用）
+- skills 安裝：`curl -fsSL https://raw.githubusercontent.com/awwesomeman/python-skills/main/remote-install.sh | bash -s -- claude openclaw gemini`
 
 ## SSH
 
