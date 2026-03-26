@@ -48,7 +48,7 @@
     "list": [
       {
         "id": "main",
-        "model": "anthropic/claude-opus-4-6",
+        "model": "anthropic/claude-sonnet-4-6",
         "identity": {
           "name": "PM 墨熵",
           "theme": "Architecture planning, task delegation, and subagent report review",
