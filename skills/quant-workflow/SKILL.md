@@ -48,9 +48,8 @@ description: Enforce consistent quant development workflow for quant-strategy-la
 
 ## 回測效能建議
 
-- **資料頻率**：以策略決策週期為準（H1/D1 策略不需要 M1 資料驅動引擎）；若使用更細粒度資料，評估是否真正必要
 - **向量化預處理**：技術指標優先在 `initialize` 階段預算（Pandas），`on_trading_iteration` 只查表讀取，避免逐 bar 重算
-- **效能卡點**：若回測明顯慢，優先檢查資料量與 `on_trading_iteration` 內的計算量
+- **效能卡點**：若回測明顯慢，優先檢查 `on_trading_iteration` 內的計算量是否可向量化
 
 ---
 
