@@ -11,83 +11,71 @@ Read `references/trigger-map.md` first when this skill triggers.
 
 ## Required Output Routing
 
-- 回測分析：統一使用單一模板輸出（不再區分 brief/full），流程固定 Train+Validation 選穩定參數，再做 OOS 單次驗證。
+- 回測分析：統一模板輸出，流程固定 Train+Validation 選穩定參數，再做 OOS 單次驗證。
 - 穩健性測試：使用 robust 模板，必含 WF/穩定區/成本壓測。
 - 待辦清單：固定 完成/進行中/待執行，且每項有簡單描述。
 - 監控策略：固定回報 setup/trigger、state、log、去重機制。
 
 ## Research Period Consistency Rule
 
-在策略研究階段，預設統一所有策略的 Train / Validation / OOS 期間，避免樣本期不一致造成比較偏差。
+預設統一所有策略的 Train / Validation / OOS 期間。
 
 僅在以下情況允許微調：
 1) 資料源歷史長度限制
 2) 交易日曆/商品上市時間差異
 3) 已明確標註的特殊研究目的
 
-若有微調，回報中必須明確註記「調整原因 + 調整後期間」。
+若有微調，回報中必須註記「調整原因 + 調整後期間」。
 
 ## Required Guardrails Before Finalizing Code
 
-1. Keep naming consistent (file/variable/function naming style).
-2. Keep logic DRY and modular (no duplicate business logic).
-3. Run syntax check (`py_compile`) for changed Python files.
-4. Run unit tests for core logic touched.
-5. Report using three blocks:
-   - 執行中
-   - 待執行
-   - 等待決策
+1. 命名一致（file/variable/function）。
+2. 邏輯 DRY，不重複核心業務邏輯。
+3. 變更的 Python 檔跑 `py_compile` 語法檢查。
+4. 核心邏輯變更須有 unit test。
+5. 回報格式三段：執行中 / 待執行 / 等待決策。
 
 ## Naming Standard
 
-Use strategy naming:
-`[StrategyName]_v[L].[F].[P]-[TF]-[Side]-[Asset]`
+策略命名：`[StrategyName]_v[Major].[Minor]-[TF]-[Side]-[Asset]`
 
-- L: 邏輯改變
-- F: 頻率/週期改變
-- P: 參數改變
+- Major：策略邏輯改變
+- Minor：參數調整
 
-## LLM Tool Routing
+## Agent Task Routing
 
-Use tool selection by task type:
-- 策略研究（research / hypothesis / experiment design）: prioritize Codex.
-- 策略開發（implementation / refactor / production scripts）: prioritize Claude CLI.
+子代理派工透過 `sessions_spawn(agentId=...)`，模型配置見 `openclaw.json`。
 
-## Claude CLI Model Routing (coding tasks)
-
-When delegating coding tasks via Claude CLI, route by difficulty:
-- Sonnet 4.6: default for routine coding, moderate refactor, standard script work.
-- Opus 4.6: complex architecture changes, high-risk refactor, ambiguous/critical logic decisions.
-
-Prefer Sonnet for speed; escalate to Opus when correctness/risk dominates.
+任務分流：
+- 策略研究（research / hypothesis / experiment design）→ Backend agent
+- 策略開發（implementation / refactor / production scripts）→ Backend agent
+- 儀表板 / UI / 圖表 → Frontend agent
+- 需要外部查證 → `gemini --search`
 
 ## Completion Checklist
 
-Before sending final response, confirm all:
-- Required metrics present
-- Best-practice checks completed (py_compile + unit test for core changes)
-- New features include unit tests; add integration tests when interaction risk is non-trivial.
-- TODO synchronized for new/changed commitments
-- Response blocks use: 執行中 / 待執行 / 等待決策 (when status update is requested)
+回報前確認：
+- 必要指標齊全
+- 最佳實踐檢查完成（py_compile + unit test）
+- 新功能有 unit test；互動風險高的加 integration test
+- TODO 已同步
+- 回報使用：執行中 / 待執行 / 等待決策
 
-## Proactive Completion Rule (mandatory)
+## Proactive Completion Rule（強制）
 
-Do not wait for user to ask progress after a background task is started.
-When a tracked task/session completes or fails, proactively send:
-1) task status (completed/failed)
-2) key outputs and file paths
-3) validation/test result
-4) next recommended action
+背景任務完成或失敗時，主動回報：
+1) 任務狀態
+2) 關鍵產出與檔案路徑
+3) 驗證/測試結果
+4) 建議下一步
 
-If multiple tasks complete close together, send one batched update instead of silence.
+多個任務同時完成 → 合併為一則更新。
 
-## Cleanup Suggestion Rule (mandatory)
+## Cleanup Suggestion Rule（強制）
 
-After each optimization or adjustment (code or documentation), provide a "deletion candidates" list to keep research workflow efficient.
+優化或調整後，提供「刪除候選」清單：
+1) Cache/build artifacts（`__pycache__`、`*.pyc`）
+2) Runtime logs（可重建、非長期記錄）
+3) 過時產出（已被新版取代）
 
-Minimum categories:
-1) Cache/build artifacts (e.g., `__pycache__`, `*.pyc`, temporary cache files)
-2) Runtime logs (rebuildable and not required as long-term records)
-3) Outdated outputs (superseded by newer canonical results)
-
-Rule: list candidates + risk note first, then delete after confirmation (or when explicitly pre-approved). Do not delete strategy source-of-truth files or official reports.
+規則：先列候選 + 風險，確認後才刪。不刪策略 single truth 檔案或正式報告。
