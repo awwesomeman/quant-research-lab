@@ -75,10 +75,9 @@ cp ~/.openclaw/workspace/openclaw-config/openclaw.template.json ~/.openclaw/open
 ln -sf ~/.openclaw/workspace/openclaw-config/cron/jobs.json ~/.openclaw/cron/jobs.json
 
 # 5) 安裝 skills（唯一路徑：~/.openclaw/skills/）
-cd ~/.openclaw/workspace/skills
-git clone https://github.com/awwesomeman/python-skills.git
+git clone https://github.com/awwesomeman/python-skills.git ~/python-skills
 for s in git python quant skill-creator; do
-  ln -sf ~/.openclaw/workspace/skills/python-skills/skills/$s ~/.openclaw/skills/$s
+  ln -sf ~/python-skills/skills/$s ~/.openclaw/skills/$s
 done
 
 # 6) 子代理認證
