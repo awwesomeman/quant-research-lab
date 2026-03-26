@@ -1,6 +1,6 @@
 # TOOLS.md - Local Notes
 
-## Repo 目錄結構
+## 目錄結構與用途
 
 ```
 ~/.openclaw/
@@ -10,6 +10,8 @@
 │   └── python-skills/       ← skills 來源 repo
 └── skills/                  ← symlink → repos/python-skills/skills/*
 ```
+
+- `workspace/openclaw-config/`：部署工具包（不自動讀取，僅新環境設定時使用）
 
 ## SSH
 
