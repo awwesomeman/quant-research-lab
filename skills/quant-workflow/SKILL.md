@@ -1,6 +1,6 @@
 ---
-name: workflow-consistency
-description: Enforce consistent daily workflow outputs for quant operations. Use when user asks to backtest a strategy, request TODO status, run robustness tests, or start strategy monitoring. Apply fixed templates (brief/full/robust/todo), enforce naming rules, require best-practice coding checks (code review + unit tests), and standardize response structure (執行中/待執行/等待決策).
+name: quant-workflow
+description: Enforce consistent quant development workflow. Use when user asks to backtest a strategy, run robustness tests, or start strategy monitoring. Enforces train/val/OOS protocol, naming rules, look-ahead bias guardrails, cost model inclusion, and metrics single-truth principle.
 ---
 
 # Workflow Consistency
