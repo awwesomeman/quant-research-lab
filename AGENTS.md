@@ -46,10 +46,12 @@
 
 ## Skills（強制）
 
-- 預設安裝 `https://github.com/awwesomeman/python-skills#` 整包
+- 安裝路徑：`~/.openclaw/skills/`（唯一 skill 路徑，main + subagent 共用）
+- 來源：`https://github.com/awwesomeman/python-skills#`（整包安裝）
 - 至少確認 `git`, `python`, `quant` 可用
 - 回報第一行必須標註 `Skills used: ... / simplify used: yes|no`
 - Backend 預設：`python, quant`；Frontend 預設：`python`（涉及策略語意加 `quant`）
+- ⚠️ `~/.claude/skills/` 為 legacy，不再維護同步
 
 ---
 

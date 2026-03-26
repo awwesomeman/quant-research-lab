@@ -23,9 +23,9 @@
 
 ## LLM 工具偏好
 
-- 開發主力：Claude CLI（Backend/Master = Opus, Frontend/QA = Sonnet）
+- 開發：透過 OpenClaw subagent 派工（模型配置見 `openclaw.json`）
 - 聯網查證：`gemini --search`
-- Skills 預裝：`git`, `python`, `quant`（來源：`github.com/awwesomeman/python-skills`）
+- Skills：安裝在 `~/.openclaw/skills/`（來源：`github.com/awwesomeman/python-skills`）
 
 ## 長期記憶偏好
 
