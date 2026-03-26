@@ -5,5 +5,9 @@ __pycache__/
 .pytest_cache/
 .openclaw/
 
+# Sensitive files (never commit)
+openclaw.json
+auth-profiles.json
+
 # Workspace sibling repo (managed independently)
 quant-strategy-lab/

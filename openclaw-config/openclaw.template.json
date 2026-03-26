@@ -1,0 +1,166 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.23-2",
+    "lastTouchedAt": "2026-03-25T15:32:05.164Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-03-25T15:32:05.100Z",
+    "lastRunVersion": "2026.3.23-2",
+    "lastRunCommand": "configure",
+    "lastRunMode": "local"
+  },
+  "auth": {
+    "profiles": {
+      "anthropic:claude-cli": {
+        "provider": "anthropic",
+        "mode": "oauth"
+      },
+      "anthropic:default": {
+        "provider": "anthropic",
+        "mode": "token"
+      }
+    },
+    "order": {
+      "anthropic": [
+        "anthropic:default",
+        "anthropic:claude-cli"
+      ]
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-sonnet-4-6"
+      },
+      "models": {
+        "anthropic/claude-sonnet-4-6": {}
+      },
+      "workspace": "/home/jasonpan_subscribe/.openclaw/workspace",
+      "compaction": {
+        "mode": "safeguard"
+      },
+      "timeoutSeconds": 600,
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "model": "anthropic/claude-opus-4-6",
+        "identity": {
+          "name": "PM 墨熵",
+          "theme": "Architecture planning, task delegation, and subagent report review",
+          "emoji": "🐙"
+        },
+        "subagents": {
+          "allowAgents": [
+            "main",
+            "backend",
+            "frontend"
+          ]
+        }
+      },
+      {
+        "id": "backend",
+        "name": "backend",
+        "workspace": "/home/jasonpan_subscribe/.openclaw/workspace",
+        "agentDir": "/home/jasonpan_subscribe/.openclaw/agents/backend/agent",
+        "model": "anthropic/claude-opus-4-6",
+        "identity": {
+          "name": "後端工程師",
+          "theme": "Strategy framework, backtesting, live trading core logic, indicator calculation, and ETL",
+          "emoji": "⚙️"
+        }
+      },
+      {
+        "id": "frontend",
+        "name": "frontend",
+        "workspace": "/home/jasonpan_subscribe/.openclaw/workspace",
+        "agentDir": "/home/jasonpan_subscribe/.openclaw/agents/frontend/agent",
+        "model": "anthropic/claude-sonnet-4-6",
+        "identity": {
+          "name": "前端工程師",
+          "theme": "Dashboard generation, Plotly charts, UI/UX styling",
+          "emoji": "🎨"
+        }
+      }
+    ]
+  },
+  "messages": {
+    "ackReactionScope": "group-mentions"
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "hooks": {
+    "internal": {
+      "enabled": true,
+      "entries": {
+        "boot-md": {
+          "enabled": true
+        },
+        "bootstrap-extra-files": {
+          "enabled": true
+        },
+        "command-logger": {
+          "enabled": true
+        },
+        "session-memory": {
+          "enabled": true
+        }
+      }
+    }
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "dmPolicy": "pairing",
+      "botToken": "<REDACTED>",
+      "groupPolicy": "allowlist",
+      "streaming": "partial"
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "loopback",
+    "auth": {
+      "mode": "token",
+      "token": "<REDACTED>"
+    },
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    },
+    "nodes": {
+      "denyCommands": [
+        "camera.snap",
+        "camera.clip",
+        "screen.record",
+        "calendar.add",
+        "contacts.add",
+        "reminders.add"
+      ]
+    }
+  },
+  "skills": {
+    "install": {
+      "nodeManager": "npm"
+    }
+  },
+  "plugins": {
+    "entries": {
+      "telegram": {
+        "enabled": true
+      }
+    }
+  }
+}
