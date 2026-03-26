@@ -5,77 +5,58 @@ description: Enforce consistent daily workflow outputs for quant operations. Use
 
 # Workflow Consistency
 
-Use this skill to keep outputs and process stable across repeated quant tasks.
+回測、穩健性測試、監控策略的一致性標準。
+通用規範（命名、回報格式、Agent 分工、TODO）見 workspace `AGENTS.md`。
 
-Read `references/trigger-map.md` first when this skill triggers.
+---
 
-## Required Output Routing
+## 回測流程規範
 
-- 回測分析：統一模板輸出，流程固定 Train+Validation 選穩定參數，再做 OOS 單次驗證。
-- 穩健性測試：使用 robust 模板，必含 WF/穩定區/成本壓測。
-- 待辦清單：固定 完成/進行中/待執行，且每項有簡單描述。
-- 監控策略：固定回報 setup/trigger、state、log、去重機制。
+**樣本期一致性**：統一所有策略的 Train / Validation / OOS 期間，避免比較偏差。
 
-## Research Period Consistency Rule
+允許微調的情況：
+1. 資料源歷史長度限制
+2. 交易日曆/商品上市時間差異
+3. 已明確標註的特殊研究目的
 
-預設統一所有策略的 Train / Validation / OOS 期間。
+微調須在回報中註記：調整原因 + 調整後期間。
 
-僅在以下情況允許微調：
-1) 資料源歷史長度限制
-2) 交易日曆/商品上市時間差異
-3) 已明確標註的特殊研究目的
+**回測流程**：Train+Validation 選穩定參數 → OOS 單次驗證（不可以 OOS 結果反推）。
 
-若有微調，回報中必須註記「調整原因 + 調整後期間」。
+---
 
-## Required Guardrails Before Finalizing Code
+## 穩健性測試規範（必含）
 
-1. 命名一致（file/variable/function）。
-2. 邏輯 DRY，不重複核心業務邏輯。
-3. 變更的 Python 檔跑 `py_compile` 語法檢查。
-4. 核心邏輯變更須有 unit test。
-5. 回報格式三段：執行中 / 待執行 / 等待決策。
+1. Walk-forward 驗證
+2. 穩定參數區間（鄰近參數績效一致性）
+3. 成本壓測（不同滑價/手續費假設下仍正報酬）
 
-## Naming Standard
+---
 
-策略命名：`[StrategyName]_v[Major].[Minor]-[TF]-[Side]-[Asset]`
+## 監控策略回報格式
 
-- Major：策略邏輯改變
-- Minor：參數調整
+每次監控任務必回報：
+- `setup/trigger`：進場條件是否仍滿足
+- `state`：當前持倉狀態
+- `log`：最近 N 筆訊號摘要
+- `dedup`：去重機制是否正常
 
-## Agent Task Routing
+---
 
-子代理派工透過 `sessions_spawn(agentId=...)`，模型配置見 `openclaw.json`。
+## Code Guardrails（量化策略專用）
 
-任務分流：
-- 策略研究（research / hypothesis / experiment design）→ Backend agent
-- 策略開發（implementation / refactor / production scripts）→ Backend agent
-- 儀表板 / UI / 圖表 → Frontend agent
-- 需要外部查證 → `gemini --search`
+1. 指標計算邏輯集中在 `metrics.py`（不在策略腳本內重算）
+2. 策略 single truth：同一策略的回測與即時信號共用同一邏輯模組
+3. 樣本期邊界：確認 indicator warmup 期已排除，無 look-ahead bias
+4. 成本模型：手續費 + 滑價必須納入，台指期預設小台雙邊 NT$100
 
-## Completion Checklist
-
-回報前確認：
-- 必要指標齊全
-- 最佳實踐檢查完成（py_compile + unit test）
-- 新功能有 unit test；互動風險高的加 integration test
-- TODO 已同步
-- 回報使用：執行中 / 待執行 / 等待決策
-
-## Proactive Completion Rule（強制）
-
-背景任務完成或失敗時，主動回報：
-1) 任務狀態
-2) 關鍵產出與檔案路徑
-3) 驗證/測試結果
-4) 建議下一步
-
-多個任務同時完成 → 合併為一則更新。
+---
 
 ## Cleanup Suggestion Rule（強制）
 
 優化或調整後，提供「刪除候選」清單：
-1) Cache/build artifacts（`__pycache__`、`*.pyc`）
-2) Runtime logs（可重建、非長期記錄）
-3) 過時產出（已被新版取代）
+1. Cache/build artifacts（`__pycache__`、`*.pyc`）
+2. Runtime logs（可重建、非長期記錄）
+3. 過時產出（已被新版取代）
 
-規則：先列候選 + 風險，確認後才刪。不刪策略 single truth 檔案或正式報告。
+先列候選 + 風險，確認後才刪。不刪策略 single truth 檔案或正式報告。
