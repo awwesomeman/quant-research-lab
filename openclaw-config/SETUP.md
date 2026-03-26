@@ -4,6 +4,15 @@
 
 ---
 
+## 架構概念
+
+- **`openclaw.json`**：系統層設定（agent 定義、模型、頻道、認證）→ 不進 repo
+- **`workspace/AGENTS.md`**：行為層規範（職責、回報格式、scope、SOP）→ 進 repo
+- **兩者不重複**：模型/身份只在 `openclaw.json`，行為規則只在 `AGENTS.md`
+- **子代理**：透過 `sessions_spawn(agentId=...)` 派工，不使用 Claude CLI
+
+---
+
 ## 目錄結構
 
 ```
@@ -19,40 +28,38 @@
 ├── skills/                  ← symlink → workspace/skills/python-skills/skills/*
 ├── cron/
 │   └── jobs.json            ← symlink → workspace/openclaw-config/cron/jobs.json
-├── memory/main.sqlite       ← 系統自動產生
-├── logs/                    ← 系統自動產生
-├── media/                   ← 系統自動產生
 └── workspace/               ← git repo（quant-research-lab）
 ```
 
+系統自動產生（不用管）：`memory/main.sqlite`、`logs/`、`media/`
+
 ---
 
-## Symlink 設定（實際檔案在 workspace，~/.openclaw 指過來）
+## Symlink 設定
+
+實際檔案放 workspace（repo 追蹤），`~/.openclaw/` 用 symlink 指過來。
 
 ```bash
 # cron jobs
 ln -sf ~/.openclaw/workspace/openclaw-config/cron/jobs.json ~/.openclaw/cron/jobs.json
 
-# skills（已設定，確認即可）
-# ~/.openclaw/skills/git → workspace/skills/python-skills/skills/git
-# ~/.openclaw/skills/python → workspace/skills/python-skills/skills/python
-# ~/.openclaw/skills/quant → workspace/skills/python-skills/skills/quant
-# ~/.openclaw/skills/skill-creator → workspace/skills/python-skills/skills/skill-creator
+# skills → workspace/skills/python-skills/skills/*
+# （見 step 5）
 ```
 
 ---
 
-## 敏感檔案（不進 repo，需手動設定）
+## 敏感檔案（不進 repo）
 
-| 檔案 | 說明 | 設定方式 |
-|------|------|---------|
-| `openclaw.json` | 核心設定 | 用 `openclaw-config/openclaw.template.json` 為模板，填入 token 後存為 `~/.openclaw/openclaw.json` |
-| `agents/*/agent/auth-profiles.json` | 子代理 API 認證 | 手動建立，填入 Anthropic API token |
-| `credentials/` | OAuth | `openclaw configure` 自動產生 |
+| 檔案 | 設定方式 |
+|------|---------|
+| `openclaw.json` | 用 `openclaw-config/openclaw.template.json` 為模板，填入 token |
+| `agents/*/agent/auth-profiles.json` | 手動建立，填入 Anthropic API token |
+| `credentials/` | `openclaw configure` 自動產生 |
 
 ---
 
-## 新環境快速設定步驟
+## 新環境快速設定
 
 ```bash
 # 1) 安裝 OpenClaw
@@ -61,11 +68,10 @@ curl -fsSL https://openclaw.ai/install.sh | bash
 # 2) Clone workspace
 git clone <your-research-lab-repo> ~/.openclaw/workspace
 
-# 3) 從模板建立 openclaw.json
+# 3) 從模板建立 openclaw.json（填入敏感 token）
 cp ~/.openclaw/workspace/openclaw-config/openclaw.template.json ~/.openclaw/openclaw.json
-# 手動填入 botToken, gateway.auth.token 等敏感值
 
-# 4) 建立 symlink
+# 4) Symlink cron
 ln -sf ~/.openclaw/workspace/openclaw-config/cron/jobs.json ~/.openclaw/cron/jobs.json
 
 # 5) 安裝 skills（唯一路徑：~/.openclaw/skills/）
@@ -74,11 +80,10 @@ git clone https://github.com/awwesomeman/python-skills.git
 for s in git python quant skill-creator; do
   ln -sf ~/.openclaw/workspace/skills/python-skills/skills/$s ~/.openclaw/skills/$s
 done
-# 注意：~/.claude/skills/ 為 legacy，不需要維護
 
-# 6) 設定子代理認證（每個 agent 各一份）
+# 6) 子代理認證
 mkdir -p ~/.openclaw/agents/backend/agent ~/.openclaw/agents/frontend/agent
-# 建立 auth-profiles.json（填入 API token）
+# 每個資料夾建立 auth-profiles.json（填入 API token）
 
 # 7) 啟動
 openclaw gateway start
@@ -88,6 +93,6 @@ openclaw gateway start
 
 ## 注意事項
 
-- `openclaw.template.json` 是去敏版，**絕對不要把真正的 openclaw.json commit 到 repo**
-- `auth-profiles.json` 含 API key，**不進 repo**
-- `.gitignore` 應包含：`openclaw.json`、`auth-profiles.json`、`credentials/`
+- **絕對不要** commit `openclaw.json` 或 `auth-profiles.json`
+- `.gitignore` 已排除上述檔案
+- `~/.claude/skills/` 為 legacy，不需要維護
