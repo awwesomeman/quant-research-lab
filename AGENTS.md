@@ -12,6 +12,11 @@
 3. Read `memory/YYYY-MM-DD.md`（today + yesterday）→ 近期 context
 4. **Main session only**: Read `MEMORY.md`（長期記憶）
 
+**啟動確認（強制）**：讀完以上檔案後，確認並遵守：
+- Git push 規則：不主動 push，累積 ≥5 commits 時主動詢問
+- No-fallback：連線失敗直接報錯，不做 fallback
+- Sub-agent prompt：只給路徑 + 目標 + 驗收條件，禁止貼大段背景
+
 ---
 
 ## Safety & Boundaries
@@ -19,6 +24,8 @@
 - 不外洩隱私；破壞性操作先問（`trash` > `rm`）
 - 外部行為（email/tweet/公開訊息）先確認
 - 重要事項必須寫檔，不做「mental notes」
+
+**不使用 Fallback 機制**：所有資料源直連，連線失敗直接報錯，不做自動 fallback。保持程式碼單一路徑、易維護。
 
 ---
 

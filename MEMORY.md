@@ -26,6 +26,12 @@
 - **2026-03-25** 兩 repo 推送 GitHub 成功（SSH config 修復）
 - **2026-03-25** 基礎設定大整合：刪除重複檔案、單一 AGENTS.md、workspace 精簡化
 - **2026-03-25** 導入 memory P0/P1/P2 分級 + 錯誤學習機制
+- **2026-03-26** signal_engine pure function 抽出 + monitor pipeline 建立（Sprint 1-7）
+- **2026-03-26** MarketAdapter / MarketHub 架構設計（decisions 記錄）
+- **2026-03-26** Market Config 兩層架構（config/markets.yaml）
+- **2026-03-27** TimescaleDB 完全取代 InfluxDB（Phase A-D）
+- **2026-03-27** Grafana 三板架構定案：Backtest / Monitor / Live
+- **2026-03-27** No-fallback 規範加入 AGENTS.md
 
 ---
 
@@ -33,8 +39,11 @@
 
 - **VPS**: GCP `instance-20260302-070225` (asia-east1-b)
 - **External IP**: 35.194.150.232
-- **Services**: InfluxDB(:8086), Grafana(:3000), Streamlit(:8502)
+- **Services**: TimescaleDB(:5432), InfluxDB(:8086, 保留待退役), Grafana(:3000), Streamlit(:8502)
 - **SSH**: 兩把 deploy key（research / strategy 各一）via `~/.ssh/config`
+- **TimescaleDB**: 唯一資料源，DSN 從 `TIMESCALE_DSN` 環境變數讀
+- **Grafana**: 三板（Backtest/Monitor/Live），TimescaleDB SQL datasource
+- **Streamlit**: systemd service，auto-restart
 
 ---
 
