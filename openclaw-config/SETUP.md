@@ -62,3 +62,13 @@ openclaw gateway start
 - **絕對不要** commit `openclaw.json` 或 `auth-profiles.json`
 - `.gitignore` 已排除上述檔案
 - `~/.openclaw/repos/python-skills/` 舊 clone 方式已廢棄，不需要 repo，直接用 remote-install.sh
+
+---
+
+## Agent Session 啟動確認
+
+每次 session 開始前確認以下三條規則已讀取並遵守（詳細規範見 `AGENTS.md`）：
+
+1. **Git push**：不主動 push；累積 ≥5 commits 時主動詢問 Jason
+2. **No-fallback**：資料源連線失敗直接報錯，不做自動 fallback
+3. **Sub-agent prompt**：只給路徑 + 目標行為 + 驗收條件，禁止貼大段背景
