@@ -65,10 +65,12 @@ openclaw gateway start
 
 ---
 
-## Agent Session 啟動確認
+## Agent Session 必讀檔案
 
-每次 session 開始前確認以下三條規則已讀取並遵守（詳細規範見 `AGENTS.md`）：
+每次 session 啟動時依序讀取：
 
-1. **Git push**：不主動 push；累積 ≥5 commits 時主動詢問 Jason
-2. **No-fallback**：資料源連線失敗直接報錯，不做自動 fallback
-3. **Sub-agent prompt**：只給路徑 + 目標行為 + 驗收條件，禁止貼大段背景
+1. `SOUL.md` → 人格與語氣
+2. `USER.md` → 使用者偏好
+3. `AGENTS.md` → 行為規範（git push 規則、no-fallback、sub-agent prompt 規範等）
+4. `memory/YYYY-MM-DD.md`（今天 + 昨天）→ 近期 context
+5. `MEMORY.md` → 長期記憶（main session only）
